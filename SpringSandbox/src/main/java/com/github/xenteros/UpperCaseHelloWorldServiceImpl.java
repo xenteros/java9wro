@@ -1,12 +1,12 @@
 package com.github.xenteros;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
 
-@Primary
 @Service
+@Profile("upper")
 class UpperCaseHelloWorldServiceImpl implements HelloWorldService {
 
     @Override

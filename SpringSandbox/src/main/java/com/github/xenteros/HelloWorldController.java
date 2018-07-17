@@ -1,7 +1,6 @@
 package com.github.xenteros;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -14,7 +13,7 @@ public class HelloWorldController {
     private HelloWorldService helloWorldService;
 
     @Autowired
-    public HelloWorldController(@Qualifier("helloWorldServiceImpl") HelloWorldService helloWorldService) {
+    public HelloWorldController(HelloWorldService helloWorldService) {
         this.helloWorldService = helloWorldService;
     }
 
@@ -27,7 +26,6 @@ public class HelloWorldController {
     @RequestMapping(method = GET, value = "/param")
     public String helloNameParam(@RequestParam(required = false, defaultValue = "Anonymous") String name) {
         return helloWorldService.helloName(name);
-
     }
 
 
