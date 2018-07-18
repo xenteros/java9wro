@@ -1,20 +1,33 @@
 package com.github.xenteros.controller;
 
 import com.github.xenteros.model.Address;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.github.xenteros.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/addresses")
 public class AddressController {
 
-    @GetMapping
-    public Set<Address> getAllAddresses() {
-        return Collections.emptySet();
+    private AddressService addressService;
+
+    @Autowired
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
     }
 
+    @PostMapping
+    public void create(@RequestParam String street,
+                       @RequestParam String city,
+                       @RequestParam String state) {
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(city);
+        address.setState(state);
+
+        addressService.create(address);
+    }
 }
