@@ -3,10 +3,9 @@ package com.github.xenteros.controller;
 import com.github.xenteros.model.Address;
 import com.github.xenteros.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/addresses")
@@ -29,5 +28,16 @@ public class AddressController {
         address.setState(state);
 
         addressService.create(address);
+    }
+
+    @GetMapping
+    public Set<Address> findAll() {
+        return addressService.findAll();
+    }
+
+    @GetMapping("/{city}_{state}")
+    public Set<Address> findAllByCityAndState(@PathVariable String city,
+                                              @PathVariable String state) {
+        return addressService.findAllByCityAndState(city, state);
     }
 }
