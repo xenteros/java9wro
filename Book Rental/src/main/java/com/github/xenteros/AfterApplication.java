@@ -6,8 +6,11 @@ import com.github.xenteros.model.Book;
 import com.github.xenteros.repository.AddressRepository;
 import com.github.xenteros.repository.AuthorRepository;
 import com.github.xenteros.repository.BookRepository;
+import com.github.xenteros.repository.UserRepository;
+import com.github.xenteros.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,14 +19,19 @@ public class AfterApplication implements CommandLineRunner {
     private AddressRepository addressRepository;
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public AfterApplication(AddressRepository addressRepository,
                             AuthorRepository authorRepository,
-                            BookRepository bookRepository) {
+                            BookRepository bookRepository, UserRepository userRepository, UserRepository userRepository1, PasswordEncoder passwordEncoder) {
         this.addressRepository = addressRepository;
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository1;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -38,6 +46,8 @@ public class AfterApplication implements CommandLineRunner {
             Author kowalski = createAuthor("Jan", "Kowalski", pomorska);
 
             Book polapka = createBook("Pułapka", rozewicz);
+
+            createUser("xenteros", "password");
 
         }
     }
@@ -63,5 +73,12 @@ public class AfterApplication implements CommandLineRunner {
         book.setTitle(title);
         book.setAuthor(author);
         return bookRepository.save(book);
+    }
+
+    private User createUser(String login, String password) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(passwordEncoder.encode(password));
+        return userRepository.save(user);
     }
 }
