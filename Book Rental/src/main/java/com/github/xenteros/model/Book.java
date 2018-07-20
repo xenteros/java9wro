@@ -1,6 +1,7 @@
 package com.github.xenteros.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -12,7 +13,16 @@ public class Book {
     private String title;
     @ManyToOne
     private Author author;
+    @ManyToMany(mappedBy = "books")
+    private Set<Rent> rents;
 
+    public Set<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(Set<Rent> rents) {
+        this.rents = rents;
+    }
 
     public Long getId() {
         return id;
